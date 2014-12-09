@@ -6,6 +6,14 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class CombinacoesDeJogos {
+	
+	int seq = 0;
+	int contFlush=0;
+	int cartasIguais1=0;
+	int cartasIguais2=0;
+	int valorCartaIgual1=0;
+	int valorCartaIgual2=0;
+	
 	public static final int HIGHEST = 1;
 	public static final int ONE_PAIR = 2;
 	public static final int TWO_PAIRS = 3;
@@ -25,15 +33,6 @@ public class CombinacoesDeJogos {
 		this.possiveisJogosFormados = new ArrayList<JogoNaMao>();
 	}
 	
-	public void imprimeCartasDaMaoEDoMonte(List<Carta> listaDaMao, List<Carta> listaDoMonte){
-		System.out.print("Mao: ");
-		for(int i=0;i<5;i++){System.out.print(  listaDaMao.get(i).getCarta() +":");}
-		System.out.print("  Monte: ");
-		for(int i=0;i<5;i++){System.out.print(  listaDoMonte.get(i).getCarta() +":");}
-		System.out.print("  ");
-	}
-
-	
 	public void adicionarSequenciasDeCartasGeradas(List<Carta> sequenciaAdicionada){
 		
 		JogoNaMao jogoNaMaoTemporarios = new JogoNaMao(sequenciaAdicionada);
@@ -52,94 +51,70 @@ public class CombinacoesDeJogos {
 		}
 	}
 	
-	public String retornarJogoDeMaiorRelevancia(){
-		if(this.jogosPorRelevancia.isEmpty()!=true){
-				if(this.jogosPorRelevancia.containsKey(9)){
-					return "9-"+this.jogosPorRelevancia.get(9);
-				}else if(this.jogosPorRelevancia.containsKey(8)){
-					return "8-"+this.jogosPorRelevancia.get(8);
-				}else if(this.jogosPorRelevancia.containsKey(7)){
-					return "7-"+this.jogosPorRelevancia.get(7);
-				}else if(this.jogosPorRelevancia.containsKey(6)){
-					return "6-"+this.jogosPorRelevancia.get(6);
-				}else if(this.jogosPorRelevancia.containsKey(5)){
-					return "5-"+this.jogosPorRelevancia.get(5);
-				}else if(this.jogosPorRelevancia.containsKey(4)){
-					return "4"+this.jogosPorRelevancia.get(4);
-				}else if(this.jogosPorRelevancia.containsKey(3)){
-					return "3-"+this.jogosPorRelevancia.get(3);
-				}else if(this.jogosPorRelevancia.containsKey(2)){
-					return "2-"+this.jogosPorRelevancia.get(2);
-				}else if(this.jogosPorRelevancia.containsKey(1)){
-					return "1-"+this.jogosPorRelevancia.get(1);
-				}else return null; 	
-	}else return null;
+
+	public boolean isStraightFlush(){
+		if(seq==4 && contFlush==4) return true;
+		else return false;
+	}
+	public boolean isStraight(){
+		if(seq==4){return true;}
+		else {return false;}
+	}
+	public boolean isFourOfAKind(){
+		if(cartasIguais1==4)return true;
+		else return false;
+	}
+	public boolean isFullHouse(){
+		if((cartasIguais1==3 && cartasIguais2==2)||(cartasIguais1==2 && cartasIguais2==3))return true;
+		else return false;
+	}
+	public boolean isFlush(){
+		if(contFlush==4) return true;
+		else return false;
+	}
+	public boolean isThreeOfAKind(){
+		if(cartasIguais1==3 || cartasIguais2==3) return true;
+		else return false;
+	}
+	public boolean isTwoPairs(){
+		if(cartasIguais1==2 && cartasIguais2==2) return true;
+		else return false;
+	}
+	public boolean isOnePair(){
+		if(cartasIguais1==2) return true;
+		else return false;
 	}
 	
+	public String retornarJogoDeMaiorRelevancia(){
+		for(int i=9;i<=1;i++){
+			if(!this.jogosPorRelevancia.isEmpty()){
+				if(this.jogosPorRelevancia.containsKey(i)){
+					return ""+i+"-"+this.jogosPorRelevancia.get(i);
+				}	
+			}
+		}return null;
+	}
+	
+	public int identificaRelevancia(){
+		int relevancia;
+		relevancia = isStraightFlush()?
+				STRAIGHT_FLUSH:(isStraight()?
+					STRAIGHT:(isFourOfAKind()?
+							FULL_HOUSE:(isFlush()?
+									FLUSH:(isThreeOfAKind()?
+											THREE_OF_A_KIND:(isTwoPairs()?
+													TWO_PAIRS:(isOnePair()?
+															ONE_PAIR:1)))))); 
+		return relevancia;
+	}
 	public JogoNaMao verificarCombinacoes(JogoNaMao jogoNovo){
 		JogoNaMao jogoNaMao = new JogoNaMao(jogoNovo.getCartas());
-		List<Carta> cartas = jogoNaMao.getCartas();
-
-		int seq = 0;
-		int contFlush=0;
-		int cartasIguais1=0;
-		int cartasIguais2=0;
-		int valorCartaIgual1=0;
-		@SuppressWarnings("unused")
-		int valorCartaIgual2=0;
-		
-		int aux;
-		int cont;
-		for(int n=0;n<5;n++){
-			aux = cartas.get(n).getValor();
-			cont=0;
-			for(int j=0;j<5;j++){
-				if(aux==cartas.get(j).getValor()){
-				cont ++;
-				}
-			}
-			if(cont>=2){
-				if(valorCartaIgual1==0){ cartasIguais1 = cont; valorCartaIgual1=aux;}
-				else if(valorCartaIgual1!=0 && valorCartaIgual1==aux)continue;
-				else{cartasIguais2 = cont;valorCartaIgual2=aux;}
-			}
-		}
-		
-		for(int i=0;i<4;i++){
-			if(cartas.get(i).getValor()+1 == cartas.get(i+1).getValor())
-				seq ++ ;
-			if(cartas.get(i).getValorRelevanciaNaipe() == cartas.get(i+1).getValorRelevanciaNaipe())
-				contFlush ++;
-		}
-		
-		
-		if(seq==4){
-			jogoNaMao.setRelevanciaDoJogo(STRAIGHT);
-			if(contFlush==4){
-				jogoNaMao.setRelevanciaDoJogo(STRAIGHT_FLUSH);
-			}
-		}else if(cartasIguais1==4)
-			jogoNaMao.setRelevanciaDoJogo(FOUR_OF_A_KIND);
-		else if(cartasIguais1==3 || cartasIguais2==3){
-			if(cartasIguais1==3 && cartasIguais2==2){
-				jogoNaMao.setRelevanciaDoJogo(FULL_HOUSE);
-			}else if(cartasIguais1==2 || cartasIguais2==3){
-				jogoNaMao.setRelevanciaDoJogo(FULL_HOUSE);
-			}else if(contFlush==4){
-				jogoNaMao.setRelevanciaDoJogo(FLUSH);
-			}
-			else{
-				jogoNaMao.setRelevanciaDoJogo(THREE_OF_A_KIND);
-			}
-		}else if(cartasIguais1==2 && cartasIguais2==2){
-			jogoNaMao.setRelevanciaDoJogo(TWO_PAIRS);
-		}else if(cartasIguais1==2){
-			jogoNaMao.setRelevanciaDoJogo(ONE_PAIR);
-		}else{
-			jogoNaMao.setRelevanciaDoJogo(HIGHEST);
-		}
+		identificaCombinacoes(jogoNaMao.getCartas());
+		jogoNaMao.setRelevanciaDoJogo(identificaRelevancia());
 		return jogoNaMao;
 	}
+	
+	
 	public void outrasPossibilidades(List<Carta> listaDaMao, List<Carta> listaDoMonte){
 		List<Carta> monte = new ArrayList<Carta>();
 		monte.addAll(listaDoMonte);
@@ -187,6 +162,40 @@ public class CombinacoesDeJogos {
 		}
 		adicionarSequenciasDeCartasGeradas(trocandoTodas);
 	}
+	
+	
+	public void identificaCombinacoes(List<Carta> cartas){
+		int aux;
+		int cont;
+		for(int n=0;n<5;n++){
+			aux = cartas.get(n).getValor();
+			cont=0;
+			for(int j=0;j<5;j++){
+				if(aux==cartas.get(j).getValor()){
+				cont ++;
+				}
+			}
+			if(cont>=2){
+				if(valorCartaIgual1==0){ cartasIguais1 = cont; valorCartaIgual1=aux;}
+				else if(valorCartaIgual1!=0 && valorCartaIgual1==aux)continue;
+				else{cartasIguais2 = cont;valorCartaIgual2=aux;}
+			}
+		}
+		for(int i=0;i<4;i++){
+			if(cartas.get(i).getValor()+1 == cartas.get(i+1).getValor())
+				seq ++ ;
+			if(cartas.get(i).getValorRelevanciaNaipe() == cartas.get(i+1).getValorRelevanciaNaipe())
+				contFlush ++;
+		}
+
+
+	}
+	
+
+	
+	
+	
+	
 	
 	public List<JogoNaMao> getPossiveisJogosFormados() {
 		return possiveisJogosFormados;

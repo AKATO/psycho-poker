@@ -26,10 +26,6 @@ public class Jogo {
 		this.baralhos = new ArrayList<Baralho>();
 	}
 		
-	public void iniciaPartida(){
-		populaPartida();
-		dasAsCartas();
-	}
 	
 	public void iniciaPartida(String cartas){
 		Carta cartaTemporaria ;
@@ -45,13 +41,10 @@ public class Jogo {
 			}
 			Jogador jogadorPontual = new Jogador(cartasDoJogador);
 			CombinacoesDeJogos combi = new CombinacoesDeJogos();
-			combi.imprimeCartasDaMaoEDoMonte(jogadorPontual.getCartasNaMao(),jogadorPontual.getCartasNoMonte());
 			combi.outrasPossibilidades(jogadorPontual.getCartasNaMao(),jogadorPontual.getCartasNoMonte());
 			
 			String melhorJogo = combi.retornarJogoDeMaiorRelevancia();
-			jogadorPontual.setMelhorJogo(melhorJogo.substring(2));
-			jogadorPontual.setRelevanciaMelhorJogo(Integer.parseInt(melhorJogo.substring(0,1)));
-			System.out.print(" Melhor Jogo: " + getJogoFormado(jogadorPontual.getRelevanciaMelhorJogo()) + " . ");
+//			System.out.print(" Melhor Jogo: " + getJogoFormado(jogadorPontual.getRelevanciaMelhorJogo()) + " . ");
 		
 		}
 		} catch (Exception e) {
@@ -80,24 +73,6 @@ public class Jogo {
 
 	}
 	
-	public void populaPartida(){
-		for(int i=0;i< getQuantidadeJogadores();i++){
-			this.jogadores.add(new Jogador(i));
-			this.baralhos.add(new Baralho());
-		}
-	}
-	
-
-	public void dasAsCartas() {
-		int jogadorIndex = 0;
-		for (Baralho baralho : getBaralhos()) {
-			this.getBaralhos().set(jogadorIndex, baralho);
-			this.getJogadores().get(jogadorIndex).getCartasNaMao().addAll(baralho.getCartas().subList(0, 5));
-			this.getJogadores().get(jogadorIndex).getCartasNoMonte().addAll(baralho.getCartas().subList(5, 10));
-			jogadorIndex ++;
-		}
-	}
-
 	public List<Jogador> getJogadores() {
 		return jogadores;
 	}
