@@ -28,9 +28,20 @@ public class Jogo {
 		
 	
 	public void iniciaPartida(String cartas){
+		try{
+			Jogador jogadorPontual = new Jogador(montarCartasDoJogador(cartas));
+			CombinacoesDeJogos combi = new CombinacoesDeJogos();
+			combi.outrasPossibilidades(jogadorPontual.getCartasNaMao(),jogadorPontual.getCartasNoMonte());
+			String melhorJogo = combi.retornarJogoDeMaiorRelevancia();
+		} catch (Exception e) {
+			System.out.println("Houve um problema ao dar as cartas no trecho : " );
+			 e.printStackTrace();
+		}
+	}
+	
+	public List<Carta> montarCartasDoJogador(String cartas){
 		Carta cartaTemporaria ;
 		List<Carta> cartasDoJogador ;
-		try {
 		cartasDoJogador = new ArrayList<Carta>();
 		if(cartas != null && cartas.length()>=25){
 			cartas	= cartas.trim();
@@ -39,38 +50,11 @@ public class Jogo {
 				cartaTemporaria = new Carta(todasCartas[q]);
 				cartasDoJogador.add(cartaTemporaria);
 			}
-			Jogador jogadorPontual = new Jogador(cartasDoJogador);
-			CombinacoesDeJogos combi = new CombinacoesDeJogos();
-			combi.outrasPossibilidades(jogadorPontual.getCartasNaMao(),jogadorPontual.getCartasNoMonte());
-			
-			String melhorJogo = combi.retornarJogoDeMaiorRelevancia();
-//			System.out.print(" Melhor Jogo: " + getJogoFormado(jogadorPontual.getRelevanciaMelhorJogo()) + " . ");
-		
 		}
-		} catch (Exception e) {
-			System.out.println("Houve um problema ao dar as cartas no trecho : " );
-			 e.printStackTrace();
-		}
-		
-		
+		return cartasDoJogador;
 	}
-	
-	public String getJogoFormado(int valor){
-			switch(valor){
-			
-			case 1 : return "HIGHEST(Maior Carta)";
-			case 2 : return  "ONE-PAIR(Um Par)";
-			case 3 : return  "TWO-PAIRS(Dois Pares)";
-			case 4 : return "THREE-OF-A-KIND(Uma Trinca)";
-			case 5 : return "STRAIGHT(Sequencia)";
-			case 6 : return "FLUSH(Todas do Mesmo Naipe)";
-			case 7 : return "FULL-HOUSE( Dupla + Trinca)";
-			case 8 : return "FOUR-OF-A-KIND(Uma Quadra)";
-			case 9 : return "STRAIGHT-FLUSH(Sequencia Do Mesmo Naipe)";
-			
-			}
-			return "Maior Carta";
-
+	public String getJogoFormado(Integer valor){
+		return CombinacoesEnum.mapaDeCombinacao.get(valor).descricao;
 	}
 	
 	public List<Jogador> getJogadores() {
