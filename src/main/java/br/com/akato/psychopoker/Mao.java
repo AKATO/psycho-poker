@@ -3,18 +3,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class JogoNaMao {
+public class Mao {
 	private List<Carta> cartas;
 
 	private int relevanciaDoJogo;
 
-	public JogoNaMao() {
+	public Mao() {
 		this.cartas = new ArrayList<Carta>();
 		this.relevanciaDoJogo = 1;
 	}
 	
 
-	public JogoNaMao(List<Carta> cartas) {
+	public Mao(List<Carta> cartas) {
 		this.cartas = new ArrayList<Carta>();
 		this.cartas = cartas;
 		this.relevanciaDoJogo = 1;

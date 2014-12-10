@@ -6,12 +6,11 @@ import java.util.List;
 public class Jogador {
 	private List<Carta> cartasNaMao;
 	private List<Carta> cartasNoMonte;
-	private JogoNaMao jogoIdeal;
-
+	private String melhorJogo;
+	
 	public Jogador(List<Carta> cartas) {
 		this.cartasNaMao = new ArrayList<Carta>();
 		this.cartasNoMonte = new ArrayList<Carta>();
-		this.jogoIdeal = new JogoNaMao();
 		this.recebeAsCartas(cartas);
 	}
 
@@ -42,12 +41,16 @@ public class Jogador {
 		this.cartasNaMao = cartasNaMao;
 	}
 
-	public JogoNaMao getJogoIdeal() {
-		return jogoIdeal;
+	public void advinharMelhorJogo(){
+		CombinacoesDeJogos combinacoes = new CombinacoesDeJogos(this);
+		this.melhorJogo = combinacoes.retornarJogoDeMaiorRelevancia();
 	}
 
-	public void setJogoIdeal(JogoNaMao jogoIdeal) {
-		this.jogoIdeal = jogoIdeal;
+	public String getMelhorJogo() {
+		return melhorJogo;
 	}
 
+	public void setMelhorJogo(String melhorJogo) {
+		this.melhorJogo = melhorJogo;
+	}
 }

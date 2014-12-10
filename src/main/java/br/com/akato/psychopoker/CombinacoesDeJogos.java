@@ -23,93 +23,71 @@ public class CombinacoesDeJogos {
 	int cartasIguais2 = 0;
 	int valorCartaIgual1 = 0;
 	int valorCartaIgual2 = 0;
-
 	private Map<Integer, String> jogosPorRelevancia;
-	private List<JogoNaMao> possiveisJogosFormados;
-
-	public CombinacoesDeJogos() {
-
+	private Jogador jogador;
+	
+	
+//	public CombinacoesDeJogos() {
+//		this.jogosPorRelevancia = new TreeMap<Integer, String>();
+//	}
+	public CombinacoesDeJogos(Jogador jogador) {
 		this.jogosPorRelevancia = new TreeMap<Integer, String>();
-		this.possiveisJogosFormados = new ArrayList<JogoNaMao>();
+		this.jogador = jogador;
+	}
+	
+	
+	public CombinacoesDeJogos(List<String> jogadas) {
+		this.jogosPorRelevancia = new TreeMap<Integer, String>();
+		this.jogador = jogador;
+	}
+	
+	
+
+	public void adicionarSequenciasDeCartasGeradas(	List<Carta> sequenciaAdicionada) {
+		Mao mao = new Mao(sequenciaAdicionada);
+		validarCartas(mao);
 	}
 
-	public void adicionarSequenciasDeCartasGeradas(
-			List<Carta> sequenciaAdicionada) {
-
-		JogoNaMao jogoNaMaoTemporarios = new JogoNaMao(sequenciaAdicionada);
-		this.possiveisJogosFormados.add(jogoNaMaoTemporarios);
-		validarCartas(jogoNaMaoTemporarios);
-	}
-
-	public void validarCartas(JogoNaMao jogoParaValidacao) {
-		JogoNaMao jogoNaMao = new JogoNaMao(jogoParaValidacao.getCartas());
+	public void validarCartas(Mao jogoParaValidacao) {
+		Mao jogoNaMao = new Mao(jogoParaValidacao.getCartas());
 		Collections.sort(jogoNaMao.getCartas());
-
-		JogoNaMao jogoValidado = new JogoNaMao();
+		Mao jogoValidado = new Mao();
 		jogoValidado = verificarCombinacoes(jogoNaMao);
-		if (!this.jogosPorRelevancia.containsKey(jogoValidado
-				.getRelevanciaDoJogo())) {
-			this.jogosPorRelevancia.put(jogoValidado.getRelevanciaDoJogo(),
-					jogoValidado.toString());
+		if (!this.jogosPorRelevancia.containsKey(jogoValidado.getRelevanciaDoJogo())) {
+			this.jogosPorRelevancia.put(jogoValidado.getRelevanciaDoJogo(),jogoValidado.toString());
 		}
 	}
 
 	public boolean isStraightFlush() {
-		if (seq == 4 && contFlush == 4)
-			return true;
-		else
-			return false;
+		if (seq == 4 && contFlush == 4)	return true;
+		else return false;
 	}
-
 	public boolean isStraight() {
-		if (seq == 4) {
-			return true;
-		} else {
-			return false;
-		}
+		if (seq == 4)return true;
+		else return false;
 	}
-
 	public boolean isFourOfAKind() {
-		if (cartasIguais1 == 4)
-			return true;
-		else
-			return false;
+		if (cartasIguais1 == 4)	return true;
+		else return false;
 	}
-
 	public boolean isFullHouse() {
-		if ((cartasIguais1 == 3 && cartasIguais2 == 2)
-				|| (cartasIguais1 == 2 && cartasIguais2 == 3))
-			return true;
-		else
-			return false;
+		if ((cartasIguais1 == 3 && cartasIguais2 == 2)	|| (cartasIguais1 == 2 && cartasIguais2 == 3)) return true;
+		else return false;
 	}
-
 	public boolean isFlush() {
-		if (contFlush == 4)
-			return true;
-		else
-			return false;
+		if (contFlush == 4)return true;
+		else return false;
 	}
-
 	public boolean isThreeOfAKind() {
-		if (cartasIguais1 == 3 || cartasIguais2 == 3)
-			return true;
-		else
-			return false;
+		if (cartasIguais1 == 3 || cartasIguais2 == 3)return true;
+		else return false;
 	}
-
-	public boolean isTwoPairs() {
-		if (cartasIguais1 == 2 && cartasIguais2 == 2)
-			return true;
-		else
-			return false;
+	public boolean isTwoPairs() {if (cartasIguais1 == 2 && cartasIguais2 == 2)return true;
+		else return false;
 	}
-
 	public boolean isOnePair() {
-		if (cartasIguais1 == 2)
-			return true;
-		else
-			return false;
+		if (cartasIguais1 == 2)	return true;
+		else return false;
 	}
 
 	public String retornarJogoDeMaiorRelevancia() {
@@ -137,24 +115,21 @@ public class CombinacoesDeJogos {
 		return relevancia;
 	}
 
-	public JogoNaMao verificarCombinacoes(JogoNaMao jogoNovo) {
-		JogoNaMao jogoNaMao = new JogoNaMao(jogoNovo.getCartas());
+	public Mao verificarCombinacoes(Mao jogoNovo) {
+		Mao jogoNaMao = new Mao(jogoNovo.getCartas());
 		identificaCombinacoes(jogoNaMao.getCartas());
 		jogoNaMao.setRelevanciaDoJogo(identificaRelevancia());
 		return jogoNaMao;
 	}
 
-	public void outrasPossibilidades(List<Carta> listaDaMao,
-			List<Carta> listaDoMonte) {
+	public void criarPossibilidades() {
 		List<Carta> monte = new ArrayList<Carta>();
-		monte.addAll(listaDoMonte);
-		List<Carta> trocandoTodas = new ArrayList<Carta>();
-		trocandoTodas.addAll(listaDoMonte);
+		monte.addAll(this.jogador.getCartasNoMonte());
 		List<Carta> mao = new ArrayList<Carta>();
 		List<Carta> auxList = new ArrayList<Carta>();
 		List<Carta> auxList2 = new ArrayList<Carta>();
 		List<Carta> auxList3 = new ArrayList<Carta>();
-		mao.addAll(listaDaMao);
+		mao.addAll(this.jogador.getCartasNaMao());
 		for (int i = 0; i < 5; i++) {
 			mao.remove(i);
 			mao.add(monte.get(0));
@@ -176,26 +151,22 @@ public class CombinacoesDeJogos {
 						adicionarSequenciasDeCartasGeradas(auxList3);
 					}
 					auxList3.clear();// $
-
 					auxList2.clear();
 					auxList2.addAll(auxList);
 				}
 				auxList2.clear();// $
-
 				auxList.clear();
 				auxList.addAll(mao);
 			}
 			auxList.clear();// $
-
 			mao.clear();
-			mao.addAll(listaDaMao);
+			mao.addAll(jogador.getCartasNaMao());
 		}
-		adicionarSequenciasDeCartasGeradas(trocandoTodas);
+		adicionarSequenciasDeCartasGeradas(jogador.getCartasNoMonte());
 	}
 
 	public void identificaCombinacoes(List<Carta> cartas) {
-		int aux;
-		int cont;
+		int aux;int cont;
 		for (int n = 0; n < 5; n++) {
 			aux = cartas.get(n).getValor();
 			cont = 0;
@@ -217,21 +188,8 @@ public class CombinacoesDeJogos {
 			}
 		}
 		for (int i = 0; i < 4; i++) {
-			if (cartas.get(i).getValor() + 1 == cartas.get(i + 1).getValor())
-				seq++;
-			if (cartas.get(i).getValorRelevanciaNaipe() == cartas.get(i + 1)
-					.getValorRelevanciaNaipe())
-				contFlush++;
+			if (cartas.get(i).getValor() + 1 == cartas.get(i + 1).getValor())seq++;
+			if (cartas.get(i).getValorRelevanciaNaipe() == cartas.get(i + 1).getValorRelevanciaNaipe())	contFlush++;
 		}
-
 	}
-
-	public List<JogoNaMao> getPossiveisJogosFormados() {
-		return possiveisJogosFormados;
-	}
-
-	public void setPossiveisJogosFormados(List<JogoNaMao> possiveisJogosFormados) {
-		this.possiveisJogosFormados = possiveisJogosFormados;
-	}
-
 }
