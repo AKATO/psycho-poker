@@ -6,7 +6,7 @@ import java.util.List;
 public class Jogador {
 	private List<Carta> cartasNaMao;
 	private List<Carta> cartasNoMonte;
-	private String melhorJogo;
+	private String melhorMao;
 	
 	public Jogador(List<Carta> cartas) {
 		this.cartasNaMao = new ArrayList<Carta>();
@@ -41,16 +41,17 @@ public class Jogador {
 		this.cartasNaMao = cartasNaMao;
 	}
 
-	public void advinharMelhorJogo(){
+	public void advinharMelhorMao(){
 		CombinacoesDeJogos combinacoes = new CombinacoesDeJogos(this);
-		this.melhorJogo = combinacoes.retornarJogoDeMaiorRelevancia();
+		combinacoes.criarPossibilidades();
+		this.melhorMao = combinacoes.decricaoDaMelhorMao();
 	}
 
-	public String getMelhorJogo() {
-		return melhorJogo;
+	public String getMelhorMao() {
+		return melhorMao;
 	}
 
-	public void setMelhorJogo(String melhorJogo) {
-		this.melhorJogo = melhorJogo;
+	public void setMelhorMao(String melhorMao) {
+		this.melhorMao= melhorMao;
 	}
 }

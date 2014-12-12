@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 import static br.com.akato.psychopoker.CombinacoesEnum.HIGHEST;
 import static br.com.akato.psychopoker.CombinacoesEnum.ONE_PAIR;
 import static br.com.akato.psychopoker.CombinacoesEnum.TWO_PAIRS;
@@ -17,12 +18,7 @@ import static br.com.akato.psychopoker.CombinacoesEnum.FOUR_OF_A_KIND;
 
 public class CombinacoesDeJogos {
 
-	int seq = 0;
-	int contFlush = 0;
-	int cartasIguais1 = 0;
-	int cartasIguais2 = 0;
-	int valorCartaIgual1 = 0;
-	int valorCartaIgual2 = 0;
+	int seq,contFlush,cartasIguais1,cartasIguais2,valorCartaIgual1,valorCartaIgual2;
 	private Map<Integer, String> jogosPorRelevancia;
 	private Jogador jogador;
 	
@@ -90,17 +86,22 @@ public class CombinacoesDeJogos {
 		else return false;
 	}
 
-	public String retornarJogoDeMaiorRelevancia() {
-		for (int i = 9; i <= 1; i++) {
-			if (!this.jogosPorRelevancia.isEmpty()) {
+	public int maoDeMaiorRelevancia() {
+		if (!this.jogosPorRelevancia.isEmpty()) {		
+			for (int i = 9; i >= 1; i++) {
 				if (this.jogosPorRelevancia.containsKey(i)) {
-					return "" + i + "-" + this.jogosPorRelevancia.get(i);
+					return i;
 				}
 			}
 		}
-		return null;
+		return 1;
 	}
 
+	
+	public String decricaoDaMelhorMao(){
+		return CombinacoesEnum.mapaDeCombinacao.get(this.maoDeMaiorRelevancia()).descricao;
+	}
+	
 	public int identificaRelevancia() {
 		int relevancia;
 		relevancia = (int) (isStraightFlush() ? STRAIGHT_FLUSH.relevancia
@@ -167,6 +168,12 @@ public class CombinacoesDeJogos {
 
 	public void identificaCombinacoes(List<Carta> cartas) {
 		int aux;int cont;
+		seq = 0;
+		contFlush = 0;
+		cartasIguais1 = 0;
+		cartasIguais2 = 0;
+		valorCartaIgual1 = 0;
+		valorCartaIgual2 = 0;
 		for (int n = 0; n < 5; n++) {
 			aux = cartas.get(n).getValor();
 			cont = 0;

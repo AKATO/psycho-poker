@@ -29,8 +29,8 @@ public class Jogo {
 			Jogador jogador;
 			for(String cartas:getJogadas()){
 				jogador = new Jogador(montarCartasDoJogador(cartas));
-				jogador.advinharMelhorJogo();
-				imprimirResultado(jogador);
+				jogador.advinharMelhorMao();
+				System.out.println(imprimirResultado(jogador));
 			}
 		} catch (Exception e) {
 			System.out.println("Houve um problema ao dar as cartas no trecho : " );
@@ -48,7 +48,9 @@ public class Jogo {
 		for(Carta carta:jogador.getCartasNoMonte()){
 			resultado.append(carta.getCarta()+" ");
 		}
-		resultado.append("MelhorJogo: " + jogador.getMelhorJogo());
+		resultado.append("MelhorJogo: " + jogador.getMelhorMao());
+		
+		resultado.append(jogador.getMelhorMao());
 		
 		return resultado.toString();
 	}
@@ -74,9 +76,7 @@ public class Jogo {
 		}
 		return cartasDoJogador;
 	}
-	public String getJogoFormado(Integer valor){
-		return CombinacoesEnum.mapaDeCombinacao.get(valor).descricao;
-	}
+
 	
 	public List<Jogador> getJogadores() {
 		return jogadores;
@@ -96,6 +96,7 @@ public class Jogo {
 
 	public static void main(String[] args) {
 		Jogo jogoTeste = new Jogo();
+		jogoTeste.iniciaPartida();
 //		jogoTeste.iniciaPartida("TH JH QC QD QS QH KH AH 2S 6S");
 //		return "Mão: 2H 2S 3H 3S 3C Monte: 2D 3D 6C 9C TH Melhor Jogo: four-of-a-kind (quadra)
 //		jogoTeste.iniciaPartida("AH 2C 9S AD 3C QH KS JS JD KD");
