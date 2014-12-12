@@ -88,7 +88,7 @@ public class CombinacoesDeJogos {
 
 	public int maoDeMaiorRelevancia() {
 		if (!this.jogosPorRelevancia.isEmpty()) {		
-			for (int i = 9; i >= 1; i++) {
+			for (int i = 9; i >= 1; i--) {
 				if (this.jogosPorRelevancia.containsKey(i)) {
 					return i;
 				}
@@ -195,8 +195,9 @@ public class CombinacoesDeJogos {
 			}
 		}
 		for (int i = 0; i < 4; i++) {
-			if (cartas.get(i).getValor() + 1 == cartas.get(i + 1).getValor())seq++;
-			if (cartas.get(i).getValorRelevanciaNaipe() == cartas.get(i + 1).getValorRelevanciaNaipe())	contFlush++;
+			if (cartas.get(i).getValor() + 1 == cartas.get(i + 1).getValor()){seq++;}
+//			if (cartas.get(i).getValorRelevanciaNaipe() == cartas.get(i + 1).getValorRelevanciaNaipe())	{contFlush++;}
+			if (cartas.get(i).getNaipe().equals(cartas.get(i + 1).getNaipe()))	{contFlush++;}
 		}
 	}
 }

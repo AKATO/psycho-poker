@@ -11,19 +11,6 @@ public class Jogo {
 		this.baralhos = new ArrayList<Baralho>();
 	}
 	
-//	public void iniciaPartida(String cartas){
-//		try{
-//			Jogador jogador = new Jogador(montarCartasDoJogador(cartas));
-//			CombinacoesDeJogos combi = new CombinacoesDeJogos(jogador);
-//			combi.criarPossibilidades();
-//			String melhorJogo = combi.retornarJogoDeMaiorRelevancia();
-//		} catch (Exception e) {
-//			System.out.println("Houve um problema ao dar as cartas no trecho : " );
-//			 e.printStackTrace();
-//		}
-//	}
-	
-//	return "Mão: 2H 2S 3H 3S 3C Monte: 2D 3D 6C 9C TH Melhor Jogo: four-of-a-kind (quadra)
 	public void iniciaPartida(){
 		try{
 			Jogador jogador;
