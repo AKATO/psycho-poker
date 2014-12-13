@@ -22,23 +22,11 @@ public class CombinacoesDeJogos {
 	private Map<Integer, String> jogosPorRelevancia;
 	private Jogador jogador;
 	
-	
-//	public CombinacoesDeJogos() {
-//		this.jogosPorRelevancia = new TreeMap<Integer, String>();
-//	}
 	public CombinacoesDeJogos(Jogador jogador) {
 		this.jogosPorRelevancia = new TreeMap<Integer, String>();
-		this.jogador = jogador;
+		this.jogador = new Jogador(jogador.getTodasAsCartas());
 	}
 	
-	
-	public CombinacoesDeJogos(List<String> jogadas) {
-		this.jogosPorRelevancia = new TreeMap<Integer, String>();
-		this.jogador = jogador;
-	}
-	
-	
-
 	public void adicionarSequenciasDeCartasGeradas(	List<Carta> sequenciaAdicionada) {
 		Mao mao = new Mao(sequenciaAdicionada);
 		validarCartas(mao);
@@ -46,9 +34,8 @@ public class CombinacoesDeJogos {
 
 	public void validarCartas(Mao jogoParaValidacao) {
 		Mao jogoNaMao = new Mao(jogoParaValidacao.getCartas());
-		Collections.sort(jogoNaMao.getCartas());
-		Mao jogoValidado = new Mao();
-		jogoValidado = verificarCombinacoes(jogoNaMao);
+		jogoNaMao.setCartas(ordenaCartas(jogoNaMao.getCartas()));//Collections.sort(jogoNaMao)
+		Mao jogoValidado = verificarCombinacoes(jogoNaMao);
 		if (!this.jogosPorRelevancia.containsKey(jogoValidado.getRelevanciaDoJogo())) {
 			this.jogosPorRelevancia.put(jogoValidado.getRelevanciaDoJogo(),jogoValidado.toString());
 		}
@@ -127,10 +114,11 @@ public class CombinacoesDeJogos {
 		List<Carta> monte = new ArrayList<Carta>();
 		monte.addAll(this.jogador.getCartasNoMonte());
 		List<Carta> mao = new ArrayList<Carta>();
+		mao.addAll(this.jogador.getCartasNaMao());
 		List<Carta> auxList = new ArrayList<Carta>();
 		List<Carta> auxList2 = new ArrayList<Carta>();
 		List<Carta> auxList3 = new ArrayList<Carta>();
-		mao.addAll(this.jogador.getCartasNaMao());
+		
 		for (int i = 0; i < 5; i++) {
 			mao.remove(i);
 			mao.add(monte.get(0));
@@ -150,6 +138,15 @@ public class CombinacoesDeJogos {
 						auxList3.remove(l);
 						auxList3.add(monte.get(3));
 						adicionarSequenciasDeCartasGeradas(auxList3);
+//						if(auxList3.get(0).getValor()==2 || auxList3.get(1).getValor()==2){
+//							if(auxList3.get(2).getValor()==2){
+//								if(auxList3.get(4).getValor()==2){
+//										System.out.println("aqui");
+//								}
+//							}
+//						}
+						auxList3.clear();
+						auxList3.addAll(auxList2);
 					}
 					auxList3.clear();// $
 					auxList2.clear();
@@ -161,9 +158,10 @@ public class CombinacoesDeJogos {
 			}
 			auxList.clear();// $
 			mao.clear();
-			mao.addAll(jogador.getCartasNaMao());
+			mao.addAll(this.jogador.getCartasNaMao());
 		}
-		adicionarSequenciasDeCartasGeradas(jogador.getCartasNoMonte());
+		adicionarSequenciasDeCartasGeradas(this.jogador.getCartasNoMonte());
+		
 	}
 
 	public void identificaCombinacoes(List<Carta> cartas) {
@@ -196,8 +194,29 @@ public class CombinacoesDeJogos {
 		}
 		for (int i = 0; i < 4; i++) {
 			if (cartas.get(i).getValor() + 1 == cartas.get(i + 1).getValor()){seq++;}
-//			if (cartas.get(i).getValorRelevanciaNaipe() == cartas.get(i + 1).getValorRelevanciaNaipe())	{contFlush++;}
-			if (cartas.get(i).getNaipe().equals(cartas.get(i + 1).getNaipe()))	{contFlush++;}
+			if(seq==3 && cartas.get(3).getValor()==5 && cartas.get(4).getValor()==14){
+				seq++;
+			}
+			if (cartas.get(i).getNaipe().equals(cartas.get(i + 1).getNaipe())){contFlush++;}
 		}
 	}
+	
+	
+	public List<Carta> ordenaCartas(List<Carta> foraDeOrdem){
+		Carta aux;
+		List<Carta> emOrdem = new ArrayList<Carta>();
+		emOrdem.addAll(foraDeOrdem);
+		for(int i=0;i<emOrdem.size();i++){
+			for(int j=0;j<emOrdem.size()-1;j++){
+				if(emOrdem.get(j).getValor()>emOrdem.get(j+1).getValor()){
+					aux = emOrdem.get(j);
+					emOrdem.set(j, emOrdem.get(j+1));
+					emOrdem.set(j+1,aux);
+				}
+			}
+		}
+	return emOrdem;
+	}
+	
+	
 }

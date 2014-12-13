@@ -29,9 +29,9 @@ public class Mao {
 		
 	}
 	
-	public void ordenaJogo(){
-		Collections.sort(this.cartas);
-	}
+//	public void ordenaJogo(){
+//		Collections.sort(this.cartas);
+//	}
 	
 	
 	public List<Carta> getCartas() {

@@ -37,8 +37,6 @@ public class Jogo {
 		}
 		resultado.append("MelhorJogo: " + jogador.getMelhorMao());
 		
-		resultado.append(jogador.getMelhorMao());
-		
 		return resultado.toString();
 	}
 	

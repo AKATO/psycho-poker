@@ -40,7 +40,14 @@ public class Jogador {
 	public void setCartasNaMao(List<Carta> cartasNaMao) {
 		this.cartasNaMao = cartasNaMao;
 	}
-
+	
+	
+	public List<Carta> getTodasAsCartas(){
+		List<Carta> todasCartas= new ArrayList<Carta>();
+		todasCartas.addAll(this.getCartasNaMao());
+		todasCartas.addAll(this.getCartasNoMonte());
+		return todasCartas;
+	}
 	public void advinharMelhorMao(){
 		CombinacoesDeJogos combinacoes = new CombinacoesDeJogos(this);
 		combinacoes.criarPossibilidades();

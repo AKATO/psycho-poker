@@ -1,9 +1,8 @@
 package br.com.akato.psychopoker;
-public class Carta implements Comparable<Carta>{
+public class Carta {/*implements Comparable<Carta>{*/
 	private String carta;
 	private String naipe;
 	private int valor;
-	private int valorRelevanciaNaipe;
 
 	public Carta(String codigo) {
 		this.carta = codigo;
@@ -18,8 +17,6 @@ public class Carta implements Comparable<Carta>{
 				.substring(1, 2).equals("D") ? "OURO" : (codigo.substring(1, 2)
 				.equals("S") ? "ESPADA" : "COPAS"));
 
-		this.valorRelevanciaNaipe = this.naipe.equals("C") ? 1 : (this.naipe
-				.equals("D") ? 2 : (this.naipe.equals("S") ? 3 : 4));
 	}
 
 	public String getCarta() {
@@ -46,13 +43,6 @@ public class Carta implements Comparable<Carta>{
 		this.valor = valor;
 	}
 
-	public int getValorRelevanciaNaipe() {
-		return valorRelevanciaNaipe;
-	}
-
-	public void setValorRelevanciaNaipe(int valorRelevanciaNaipe) {
-		this.valorRelevanciaNaipe = valorRelevanciaNaipe;
-	}
 
 	@Override
 	public int hashCode() {
@@ -61,7 +51,6 @@ public class Carta implements Comparable<Carta>{
 		result = prime * result + ((carta == null) ? 0 : carta.hashCode());
 		result = prime * result + ((naipe == null) ? 0 : naipe.hashCode());
 		result = prime * result + valor;
-		result = prime * result + valorRelevanciaNaipe;
 		return result;
 	}
 
@@ -86,29 +75,18 @@ public class Carta implements Comparable<Carta>{
 			return false;
 		if (valor != other.valor)
 			return false;
-		if (valorRelevanciaNaipe != other.valorRelevanciaNaipe)
-			return false;
 		return true;
 	}
 
 //	@Override
 //	public int compareTo(Carta o) {
-//		if (this.getValor()<o.getValor()){
+//		if (o.getValor()>this.getValor()){
 //			return -1;
-//		}else if(this.getValor()>o.getValor()){
+//		}else if(o.getValor()<this.getValor()){
 //			return 1;
-//		}else return 0;
+//		}else if(o.getValorRelevanciaNaipe()>this.getValorRelevanciaNaipe()){
+//			return -1;
+//		}else return 1;
+//			
 //	}
-
-	@Override
-	public int compareTo(Carta o) {
-		if (o.getValor()>this.getValor()){
-			return -1;
-		}else if(o.getValor()<this.getValor()){
-			return 1;
-		}else if(o.getValorRelevanciaNaipe()>this.getValorRelevanciaNaipe()){
-			return -1;
-		}else return 1;
-			
-	}
 }
