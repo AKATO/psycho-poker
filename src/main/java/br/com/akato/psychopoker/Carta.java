@@ -1,4 +1,6 @@
 package br.com.akato.psychopoker;
+import static br.com.akato.psychopoker.CartaEnum.mapaCartaValor;;
+
 public class Carta{
 	private String carta;
 	private String naipe;
@@ -6,43 +8,41 @@ public class Carta{
 
 	public Carta(String codigo) {
 		this.carta = codigo;
-		this.valor = (codigo.substring(0, 1).equals("T")) ? CartaEnum.T.valorCarta
-				: (codigo.substring(0, 1).equals("J") ? CartaEnum.J.valorCarta
-						: (codigo.substring(0, 1).equals("Q") ? CartaEnum.Q.valorCarta
-								: (codigo.substring(0, 1).equals("K") ? CartaEnum.K.valorCarta
-										: (codigo.substring(0, 1).equals("A") ? CartaEnum.A.valorCarta
-												: Integer.parseInt(codigo
-														.substring(0, 1))))));
-		this.naipe = codigo.substring(1, 2).equals("C") ? "PAUS" : (codigo
-				.substring(1, 2).equals("D") ? "OURO" : (codigo.substring(1, 2)
-				.equals("S") ? "ESPADA" : "COPAS"));
-
+		this.valor = atribuirValorCarta(codigo);
+		this.naipe = atribuirNaipeCarta(codigo);
 	}
 
 	public String getCarta() {
 		return carta;
 	}
 
-	public void setCarta(String carta) {
-		this.carta = carta;
-	}
-
 	public String getNaipe() {
 		return naipe;
-	}
-
-	public void setNaipe(String naipe) {
-		this.naipe = naipe;
 	}
 
 	public int getValor() {
 		return valor;
 	}
-
-	public void setValor(int valor) {
-		this.valor = valor;
+	
+	private int atribuirValorCarta(String codigo){
+		String ref = codigo.substring(0, 1);
+		if(mapaCartaValor.containsKey(ref)){
+			return mapaCartaValor.get(ref).valorCarta;
+		}else {
+			return Integer.parseInt(ref);
+			}
 	}
-
+	
+	private String atribuirNaipeCarta(String codigo){
+		String valorNaipe=	codigo.substring(1, 2).equals("C") ? "PAUS" : (codigo
+				.substring(1, 2).equals("D") ? "OURO" : (codigo.substring(1, 2)
+				.equals("S") ? "ESPADA" : "COPAS"));
+		
+		return valorNaipe;
+		
+	}
+	
+	
 
 	@Override
 	public int hashCode() {
