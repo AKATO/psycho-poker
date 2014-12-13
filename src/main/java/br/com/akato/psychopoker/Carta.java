@@ -1,6 +1,6 @@
 package br.com.akato.psychopoker;
-import static br.com.akato.psychopoker.CartaEnum.mapaCartaValor;;
-
+import static br.com.akato.psychopoker.CartaEnum.mapaCartaValor;
+import static br.com.akato.psychopoker.NaipeEnum.mapaNaipe;
 public class Carta{
 	private String carta;
 	private String naipe;
@@ -25,32 +25,24 @@ public class Carta{
 	}
 	
 	private int atribuirValorCarta(String codigo){
-		String ref = codigo.substring(0, 1);
-		if(mapaCartaValor.containsKey(ref)){
-			return mapaCartaValor.get(ref).valorCarta;
+		if(mapaCartaValor.containsKey(codigo.substring(0,1))){
+			return mapaCartaValor.get(codigo.subSequence(0, 1)).valorCarta;
 		}else {
-			return Integer.parseInt(ref);
+			return Integer.parseInt(codigo.substring(0,1));
 			}
 	}
 	
 	private String atribuirNaipeCarta(String codigo){
-		String valorNaipe=	codigo.substring(1, 2).equals("C") ? "PAUS" : (codigo
-				.substring(1, 2).equals("D") ? "OURO" : (codigo.substring(1, 2)
-				.equals("S") ? "ESPADA" : "COPAS"));
-		
-		return valorNaipe;
+		return mapaNaipe.get(codigo.substring(1,2)).naipe;	
 		
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((carta == null) ? 0 : carta.hashCode());
-		result = prime * result + ((naipe == null) ? 0 : naipe.hashCode());
-		result = prime * result + valor;
+		
 		return result;
 	}
 
@@ -68,13 +60,7 @@ public class Carta{
 				return false;
 		} else if (!carta.equals(other.carta))
 			return false;
-		if (naipe == null) {
-			if (other.naipe != null)
-				return false;
-		} else if (!naipe.equals(other.naipe))
-			return false;
-		if (valor != other.valor)
-			return false;
+		
 		return true;
 	}
 
