@@ -27,48 +27,55 @@ public class CombinacoesDeJogos {
 		this.jogador = new Jogador(jogador.getTodasAsCartas());
 	}
 	
-	public void adicionarSequenciasDeCartasGeradas(	List<Carta> sequenciaAdicionada) {
+	private void adicionarSequenciasDeCartasGeradas(	List<Carta> sequenciaAdicionada) {
 		Mao mao = new Mao(sequenciaAdicionada);
 		validarCartas(mao);
 	}
-
-	public void validarCartas(Mao jogoParaValidacao) {
+	
+	private void validarCartas(Mao jogoParaValidacao) {
 		Mao jogoNaMao = new Mao(jogoParaValidacao.getCartas());
-		jogoNaMao.setCartas(ordenaCartas(jogoNaMao.getCartas()));//Collections.sort(jogoNaMao)
+		jogoNaMao.setCartas(ordenaCartas(jogoNaMao.getCartas()));
 		Mao jogoValidado = verificarCombinacoes(jogoNaMao);
 		if (!this.jogosPorRelevancia.containsKey(jogoValidado.getRelevanciaDoJogo())) {
 			this.jogosPorRelevancia.put(jogoValidado.getRelevanciaDoJogo(),jogoValidado.toString());
 		}
 	}
+	
+	private Mao verificarCombinacoes(Mao jogoNovo) {
+		Mao jogoNaMao = new Mao(jogoNovo.getCartas());
+		identificaCombinacoes(jogoNaMao.getCartas());
+		jogoNaMao.setRelevanciaDoJogo(identificaRelevancia());
+		return jogoNaMao;
+	}
 
-	public boolean isStraightFlush() {
+	private boolean isStraightFlush() {
 		if (seq == 4 && contFlush == 4)	return true;
 		else return false;
 	}
-	public boolean isStraight() {
+	private boolean isStraight() {
 		if (seq == 4)return true;
 		else return false;
 	}
-	public boolean isFourOfAKind() {
+	private boolean isFourOfAKind() {
 		if (cartasIguais1 == 4)	return true;
 		else return false;
 	}
-	public boolean isFullHouse() {
+	private boolean isFullHouse() {
 		if ((cartasIguais1 == 3 && cartasIguais2 == 2)	|| (cartasIguais1 == 2 && cartasIguais2 == 3)) return true;
 		else return false;
 	}
-	public boolean isFlush() {
+	private boolean isFlush() {
 		if (contFlush == 4)return true;
 		else return false;
 	}
-	public boolean isThreeOfAKind() {
+	private boolean isThreeOfAKind() {
 		if (cartasIguais1 == 3 || cartasIguais2 == 3)return true;
 		else return false;
 	}
-	public boolean isTwoPairs() {if (cartasIguais1 == 2 && cartasIguais2 == 2)return true;
+	private boolean isTwoPairs() {if (cartasIguais1 == 2 && cartasIguais2 == 2)return true;
 		else return false;
 	}
-	public boolean isOnePair() {
+	private boolean isOnePair() {
 		if (cartasIguais1 == 2)	return true;
 		else return false;
 	}
@@ -83,13 +90,12 @@ public class CombinacoesDeJogos {
 		}
 		return 1;
 	}
-
 	
 	public String decricaoDaMelhorMao(){
 		return CombinacoesEnum.mapaDeCombinacao.get(this.maoDeMaiorRelevancia()).descricao;
 	}
 	
-	public int identificaRelevancia() {
+	private int identificaRelevancia() {
 		int relevancia;
 		relevancia = (int) (isStraightFlush() ? STRAIGHT_FLUSH.relevancia
 				: (isFourOfAKind() ? FOUR_OF_A_KIND.relevancia
@@ -101,13 +107,6 @@ public class CombinacoesDeJogos {
 																: (isOnePair() ? ONE_PAIR.relevancia
 																		: HIGHEST.relevancia))))))));
 		return relevancia;
-	}
-
-	public Mao verificarCombinacoes(Mao jogoNovo) {
-		Mao jogoNaMao = new Mao(jogoNovo.getCartas());
-		identificaCombinacoes(jogoNaMao.getCartas());
-		jogoNaMao.setRelevanciaDoJogo(identificaRelevancia());
-		return jogoNaMao;
 	}
 
 	public void criarPossibilidades() {

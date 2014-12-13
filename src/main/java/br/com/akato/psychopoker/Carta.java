@@ -1,5 +1,5 @@
 package br.com.akato.psychopoker;
-public class Carta {/*implements Comparable<Carta>{*/
+public class Carta{
 	private String carta;
 	private String naipe;
 	private int valor;
@@ -78,15 +78,4 @@ public class Carta {/*implements Comparable<Carta>{*/
 		return true;
 	}
 
-//	@Override
-//	public int compareTo(Carta o) {
-//		if (o.getValor()>this.getValor()){
-//			return -1;
-//		}else if(o.getValor()<this.getValor()){
-//			return 1;
-//		}else if(o.getValorRelevanciaNaipe()>this.getValorRelevanciaNaipe()){
-//			return -1;
-//		}else return 1;
-//			
-//	}
 }
