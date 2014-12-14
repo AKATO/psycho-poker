@@ -95,6 +95,10 @@ public class CombinacoesDeJogos {
 		return CombinacoesEnum.mapaDeCombinacao.get(this.maoDeMaiorRelevancia()).descricao;
 	}
 	
+	public int relevanciaDaMelhorMao(){
+		return CombinacoesEnum.mapaDeCombinacao.get(this.maoDeMaiorRelevancia()).relevancia;
+	}
+	
 	private int identificaRelevancia() {
 		int relevancia;
 		relevancia = (int) (isStraightFlush() ? STRAIGHT_FLUSH.relevancia
@@ -137,13 +141,6 @@ public class CombinacoesDeJogos {
 						auxList3.remove(l);
 						auxList3.add(monte.get(3));
 						adicionarSequenciasDeCartasGeradas(auxList3);
-//						if(auxList3.get(0).getValor()==2 || auxList3.get(1).getValor()==2){
-//							if(auxList3.get(2).getValor()==2){
-//								if(auxList3.get(4).getValor()==2){
-//										System.out.println("aqui");
-//								}
-//							}
-//						}
 						auxList3.clear();
 						auxList3.addAll(auxList2);
 					}

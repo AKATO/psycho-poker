@@ -16,6 +16,13 @@
 			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.8.4</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -32,24 +39,7 @@
 					<maxmem>512m</maxmem>
 				</configuration>
 			</plugin>
-<!--
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>br.com.expense.Finance</mainClass>
-							<packageName>br.com.expense</packageName>
-						</manifest>
-						<manifestEntries>
-							<mode>development</mode>
-							<url>${pom.url}</url>
-						</manifestEntries>
-					</archive>
-				</configuration>
-			</plugin>
--->			
+	
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>

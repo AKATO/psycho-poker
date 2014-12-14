@@ -7,6 +7,7 @@ public class Jogador {
 	private List<Carta> cartasNaMao;
 	private List<Carta> cartasNoMonte;
 	private String melhorMao;
+	private int relevanciaMelhorMao;
 	
 	public Jogador(List<Carta> cartas) {
 		this.cartasNaMao = new ArrayList<Carta>();
@@ -52,13 +53,15 @@ public class Jogador {
 		CombinacoesDeJogos combinacoes = new CombinacoesDeJogos(this);
 		combinacoes.criarPossibilidades();
 		this.melhorMao = combinacoes.decricaoDaMelhorMao();
+		this.relevanciaMelhorMao = combinacoes.relevanciaDaMelhorMao();
 	}
 
 	public String getMelhorMao() {
 		return melhorMao;
 	}
 
-	public void setMelhorMao(String melhorMao) {
-		this.melhorMao= melhorMao;
+	public int getRelevanciaMelhorMao() {
+		return relevanciaMelhorMao;
 	}
+
 }

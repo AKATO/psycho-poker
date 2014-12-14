@@ -4,11 +4,9 @@ import java.util.List;
 
 public class Jogo {
 	private List<Jogador> jogadores;
-	private List<Baralho> baralhos;
 	
 	public Jogo() {
 		this.jogadores = new ArrayList<Jogador>();
-		this.baralhos = new ArrayList<Baralho>();
 	}
 	
 	public void iniciaPartida(){
@@ -17,27 +15,31 @@ public class Jogo {
 			for(String cartas:getJogadas()){
 				jogador = new Jogador(montarCartasDoJogador(cartas));
 				jogador.advinharMelhorMao();
-				System.out.println(imprimirResultado(jogador));
+				this.jogadores.add(jogador);
+//				System.out.println(imprimirResultado(jogador));
 			}
+			imprimirResultados();
 		} catch (Exception e) {
 			System.out.println("Houve um problema ao dar as cartas no trecho : " );
 			 e.printStackTrace();
 		}
 	}
 	
-	public String imprimirResultado(Jogador jogador){
-
-		StringBuilder resultado = new StringBuilder("Mão: ");
-		for(Carta carta:jogador.getCartasNaMao()){
-			resultado.append(carta.getCarta()+" ");
+	public void imprimirResultados(){
+		StringBuilder resultado ;
+		for(Jogador jogador:this.jogadores){
+			resultado = new StringBuilder("Mão: ");
+			for(Carta carta:jogador.getCartasNaMao()){
+				resultado.append(carta.getCarta()+" ");
+			}
+			resultado.append("Monte: ");
+			for(Carta carta:jogador.getCartasNoMonte()){
+				resultado.append(carta.getCarta()+" ");
+			}
+			resultado.append("MelhorJogo: " + jogador.getMelhorMao());
+		System.out.println(resultado.toString());
 		}
-		resultado.append("Monte: ");
-		for(Carta carta:jogador.getCartasNoMonte()){
-			resultado.append(carta.getCarta()+" ");
-		}
-		resultado.append("MelhorJogo: " + jogador.getMelhorMao());
 		
-		return resultado.toString();
 	}
 	
 	public List<String> getJogadas() throws Exception{
@@ -71,20 +73,9 @@ public class Jogo {
 		this.jogadores = jogadores;
 	}
 
-	public List<Baralho> getBaralhos() {
-		return baralhos;
-	}
-
-	public void setBaralhos(List<Baralho> baralhos) {
-		this.baralhos = baralhos;
-	}
-
 	public static void main(String[] args) {
 		Jogo jogoTeste = new Jogo();
 		jogoTeste.iniciaPartida();
-//		jogoTeste.iniciaPartida("TH JH QC QD QS QH KH AH 2S 6S");
-//		return "Mão: 2H 2S 3H 3S 3C Monte: 2D 3D 6C 9C TH Melhor Jogo: four-of-a-kind (quadra)
-//		jogoTeste.iniciaPartida("AH 2C 9S AD 3C QH KS JS JD KD");
 		
 	}
 }
