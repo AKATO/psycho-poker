@@ -16,7 +16,6 @@ public class Jogo {
 				jogador = new Jogador(montarCartasDoJogador(cartas));
 				jogador.advinharMelhorMao();
 				this.jogadores.add(jogador);
-//				System.out.println(imprimirResultado(jogador));
 			}
 			imprimirResultados();
 		} catch (Exception e) {
