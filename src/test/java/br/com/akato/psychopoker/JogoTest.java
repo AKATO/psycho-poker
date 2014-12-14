@@ -27,7 +27,7 @@ public class JogoTest {
 	
 	@Before
 	public void init() throws Exception{
-		initMocks(this);
+		initMocks(this);	
 		when(leitor.lerEventos()).thenReturn(criarEventos());
 		
 		object = new Jogo();
